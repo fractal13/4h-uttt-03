@@ -10,6 +10,7 @@ class UTTTGame(PygameGame):
         PygameGame.__init__(self, "Ultimate Tic Tac Toe", width_px, height_px, frames_per_second)
         self.data = data
         self.send_queue = send_queue
+        self.image = pygame.image.load("Space.jpg")
         return
 
     def handle_state(self):
@@ -85,7 +86,7 @@ class UTTTGame(PygameGame):
     def paint(self, surface):
         # Background
         rect = pygame.Rect(0,0,self.width,self.height)
-        surface.fill((0,0,0),rect )
+        surface.blit(self.image,(0,0))
         
         # Regular Lines
         for i in range(1,9):
