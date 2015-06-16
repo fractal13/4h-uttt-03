@@ -29,9 +29,9 @@ class TTTGUI:
         self.username_box.pack_start(self.username_view, True, True)
         self.username_box.show()
 
-        username_style = self.username_label.get_style().copy()
-        username_style.fg[gtk.STATE_NORMAL] = self.username_label.get_colormap().alloc(65535, 32767, 0)
-        self.username_label.set_style(username_style)
+        #username_style = self.username_label.get_style().copy()
+        #username_style.fg[gtk.STATE_NORMAL] = self.username_label.get_colormap().alloc(65535, 32767, 0)
+        #self.username_label.set_style(username_style)
         
         # Password
         self.password_label = gtk.Label("Password")
