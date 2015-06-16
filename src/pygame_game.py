@@ -18,7 +18,7 @@ class PygameGame:
                 # apply alpha blending
                 pygame.SRCALPHA |
                 # allow resizing
-                pygame.RESIZABLE)
+                pygame.RESIZABLE,32)
 
         # set the title of the window
         pygame.display.set_caption(name)

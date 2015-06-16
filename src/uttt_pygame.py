@@ -14,7 +14,7 @@ class UTTTGame(PygameGame):
         self.player1 = pygame.image.load("alieng.png")
         self.player2= pygame.image.load("alienp.png")
         return
-
+   
     def handle_state(self):
         if self.data:
             state = self.data.GetState()
@@ -89,6 +89,18 @@ class UTTTGame(PygameGame):
         # Background
         rect = pygame.Rect(0,0,self.width,self.height)
         surface.blit(self.image,(0,0))
+
+        for board in range(9):
+            if self.data.GetNextBoard() == board:
+                color = (0,255,0)
+                x = (board % 3)*self.width/3
+                y = (board / 3)*self.height/3
+                w = self.width/3
+                h = self.height/3
+                rect= pygame.Rect(x,y,w,h)
+                pygame.draw.rect(surface,color,rect)
+        
+        
         
         # Regular Lines
         for i in range(1,9):
@@ -124,4 +136,7 @@ def uttt_pygame_main(data, send_queue):
     return
 
 if __name__ == "__main__":
-    uttt_pygame_main(UTTTData(), None)
+    data = UTTTData()
+    data.SetState(uttt_data.STATE_SHOW_GAME)
+    uttt_pygame_main(data, None)
+
