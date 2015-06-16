@@ -1,0 +1,25 @@
+Spaceship Adventures
+--------------------------------------
+
+Tasks
+-----
+- Change the color of the ship/bullets/baddies
+- Change the shape of the ship/bullets/baddies
+- Change the ship/bullets/baddies to be images
+- Add a score keeping system to track the number
+  of baddies killed.  
+- Display the score.
+- Add a lives system to track the number of baddies
+  that have escaped.
+- End the game when there are no more lives left.
+- Display the number of lives left.
+- Have the ship die if it collides with a baddie.
+
+- Organize waves of baddies.
+- Give baddies organized patterns.
+- Let the baddies shoot.
+- You think of something cool.
+
+
+
+
