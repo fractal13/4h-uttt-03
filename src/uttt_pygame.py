@@ -57,7 +57,7 @@ class UTTTGame(PygameGame):
                             uttt_data.STATE_ERROR ]:
                 # close
                 print "Socket closed, or other error, pygame will quit."
-                #pygame.quit()
+                pygame.quit()
             elif state in [ uttt_data.STATE_SOCKET_OPEN ]:
                 # what should I do?
                 pass
