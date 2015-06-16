@@ -18,7 +18,7 @@ class TTTGUI:
     def build_login_interface(self):
         
         # Username
-        self.username_label = gtk.Label("Username/Email")#, self.font)
+        self.username_label = gtk.Label("Username/Email")
         self.username_label.show()
 
         self.username_view = gtk.Entry(35)
@@ -28,6 +28,10 @@ class TTTGUI:
         self.username_box.pack_start(self.username_label, True, False)
         self.username_box.pack_start(self.username_view, True, True)
         self.username_box.show()
+
+        username_style = self.username_label.get_style().copy()
+        username_style.fg[gtk.STATE_NORMAL] = self.username_label.get_colormap().alloc(65535, 32767, 0)
+        self.username_label.set_style(username_style)
         
         # Password
         self.password_label = gtk.Label("Password")
@@ -41,10 +45,16 @@ class TTTGUI:
         self.password_box.pack_start(self.password_label, True, False)
         self.password_box.pack_start(self.password_view, True, True)
         self.password_box.show()
+
+        password_style = self.password_label.get_style().copy()
+        password_style.fg[gtk.STATE_NORMAL] = self.password_label.get_colormap().alloc(65535, 32767, 0)
+        self.password_label.set_style(password_style)
         
         # Login Button
         self.login_button = gtk.Button("Login")
         self.login_button.show()
+
+        
         
         # Login Interface
         self.login_box = gtk.VBox(False, 0)
@@ -52,6 +62,10 @@ class TTTGUI:
         self.login_box.pack_start(self.password_box,  True, True)
         self.login_box.pack_start(self.login_button,  True, True)
         self.login_box.show()
+
+        login_button_style = self.login_button_label.get_style().copy()
+        login_button_style.fg[gtk.STATE_NORMAL] = self.login_button_label.get_colormap().alloc(65535, 32767, 0)
+        self.login_button_label.set_style(login_button_style)
         
         return
 
