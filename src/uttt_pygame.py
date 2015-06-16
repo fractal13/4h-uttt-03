@@ -11,6 +11,8 @@ class UTTTGame(PygameGame):
         self.data = data
         self.send_queue = send_queue
         self.image = pygame.image.load("Space.jpg")
+        self.player1 = pygame.image.load("alieng.png")
+        self.player2= pygame.image.load("alienp.png")
         return
 
     def handle_state(self):
@@ -109,9 +111,11 @@ class UTTTGame(PygameGame):
                 y = int((row + .5) * self.height / 9)
                 marker = self.data.GetMarker(board, position)
                 if marker == uttt_data.PLAYER_X:
-                    pygame.draw.circle(surface, (0,0,255), (x, y), 5)
+                    #pygame.draw.circle(surface, (0,0,255), (x, y), 5)
+                    surface.blit(self.player1, (x-18, y-23))
                 elif marker == uttt_data.PLAYER_O:
-                    pygame.draw.circle(surface, (255,0,0), (x, y), 5)
+                    #pygame.draw.circle(surface, (0,0,255), (x, y), 5)
+                    surface.blit(self.player2, (x-18, y-23))
         return
 
 def uttt_pygame_main(data, send_queue):

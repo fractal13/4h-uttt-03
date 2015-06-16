@@ -3,6 +3,7 @@ pygtk.require('2.0')
 import gtk, gobject
 import uttt_data
 
+
 class TTTGUI:
 
     def __init__(self, data, send_queue):
@@ -10,13 +11,14 @@ class TTTGUI:
         self.send_queue = send_queue
         self.build_interface()
         self.register_handlers()
+        #self.font = pygame.font.Font("Starjedi",14)
         return
 
 
     def build_login_interface(self):
         
         # Username
-        self.username_label = gtk.Label("Username/Email")
+        self.username_label = gtk.Label("Username/Email")#, self.font)
         self.username_label.show()
 
         self.username_view = gtk.Entry(35)
