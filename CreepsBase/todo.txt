@@ -1,0 +1,249 @@
+Add Quit, Pause, and Restart functionality
+----------------
+Add the following to the top of the newGame method within the CreepData.py file
+        self.paused = False
+
+Add the following to the top of the evolve method within the CreepData.py file:
+        # Check for button presses
+        if pygame.K_q in newkeys:                               #Q to QUIT
+            quit_event = pygame.event.Event(pygame.QUIT, {})
+            pygame.event.post(quit_event)
+        elif pygame.K_SPACE in newkeys:                         #SPACEBAR TO PAUSE
+            self.paused = not self.paused
+        elif pygame.K_r in newkeys:                             #R to RESTART
+            self.newGame()
+        
+        if self.paused:
+            return
+
+
+Add a tiled background
+--------
+Add the following code to the __init__ method anywhere before self.newGame() witihn the CreepData.py file
+        # Define the image to use as your background tile image
+        self.BG_TILE_IMG = pygame.image.load(os.path.join("images","brick_tile.png")).convert_alpha()
+
+Add the following method to the end of the CreepData.py file
+    def draw_tiled_background(self, surface, tile_image):
+        # Fill the entire screen up with our tile image
+        img_rect = tile_image.get_rect()                        #GET THE SIZE OF THE TILE
+        nrows = int(surface.get_height() / img_rect.height) + 1 #DETERMINE HOW MANY ROWS OF TILES WE NEED
+        ncols = int(surface.get_width() / img_rect.width) + 1   #DETERMINE HOW MANY COLUMNS OF TILES WE NEED
+        # Loop over the rows and columns and draw the tiles
+        for y in range(nrows):
+            for x in range(ncols):
+                img_rect.topleft = (x * img_rect.width, y * img_rect.height)
+                surface.blit(tile_image, img_rect)
+
+Add the following code to the draw method in the CreepData.py file, directly above the loop that draws out the individual creeps:
+        # Add a tiled background image
+        self.draw_tiled_background(surface, self.BG_TILE_IMG)
+
+
+
+Add a playing field area for the creeps to bounce around in
+---------
+Add the following code to the __init__ method anywhere before self.newGame() witihn the CreepData.py file
+        # Define the size and location of the playing field (x, y, width, height)
+        self.PLAYING_FIELD_RECT = pygame.Rect(10, 20, 450, 360)
+
+Add the following code to the draw method within the CreepData.py file, above the loop that draws out the individual creeps:
+        # Draw a section in the middle of the screen to use as our playing field
+        playing_field_background_color = (109, 41, 1)           #SELECT A COLOR FOR THE PLAYING FIELD
+        playing_field_border_width = 4                          #PICK A SIZE FOR THE PLAYING FIELD BORDER
+        playingfield_border_color = pygame.Color('black')       #PICK A COLOR FOR THE PLAYING FIELD BORDER
+        self.draw_bordered_box(surface, self.PLAYING_FIELD_RECT, playing_field_background_color, playing_field_border_width, playingfield_border_color)
+
+Add the following method to the bottom of the CreepData.py file:
+    def draw_bordered_box(self, surface, box_rect, box_color, border_width=0, border_color=pygame.Color('black')):
+        if border_width:
+            border_rect = pygame.Rect(box_rect.left - border_width,
+                            box_rect.top - border_width,
+                            box_rect.width + border_width * 2,
+                            box_rect.height + border_width * 2)
+            pygame.draw.rect(surface, border_color, border_rect)
+        pygame.draw.rect(surface, box_color, box_rect)
+
+In the newGame method within the CreepData.py file, replace
+	pygame.Rect(0,0,self.width*self.cell_size, self.height*self.cell_size)
+with 
+	self.PLAYING_FIELD_RECT
+Note: Make sure to leave the ")" at the very end of the line where you just replaced the code!
+
+
+Add click-on-creep detection and health tracking to the creeps. Click the creeps to see the affect.
+---------------
+In creep.py add the following to the bottom of the __init__ method:
+        # The amount of health the creep starts with
+        self.health = 15
+
+In creep.py add the following method directly above the "private parts" area of the code:
+    def mouse_click_event(self, pos):
+        # if the creep was clicked, decrease the creep's health
+        if self._point_is_inside(vec2d(pos)):
+            self._decrease_health(3)
+
+In creep.py add the following two methods to the bottom of the file (in the "private parts" section of the code):
+    def _point_is_inside(self, point):
+        """ Is the point (given as a vec2d) inside a solid portion/color of the creep's image?
+        """
+        img_point = point - vec2d(
+            int(self.pos.x - self.image_w / 2),
+            int(self.pos.y - self.image_h / 2))
+
+        try:
+            pix = self.image.get_at(img_point)
+            return pix[3] > 0
+        except IndexError:
+            return False
+
+    def _decrease_health(self, n):
+        """ Decrease the creep's health by n (or to 0, if it's currently less than n)
+        """
+        self.health = max(0, self.health - n)
+
+Inside the draw method within the creep.py file, add the following code below "surface.blit(self.image, draw_pos)".  It should be spaced in the same distance as the "surface.blit(self.image, draw_pos)" line above it:
+            # Draw the health bar (it is 15x4 px)
+            health_bar_x = self.pos.x - 7
+            health_bar_y = self.pos.y - self.image_h / 2 - 6
+            surface.fill(pygame.Color('red'), (health_bar_x, health_bar_y, 15, 4))          #BAD HEALTH
+            surface.fill(pygame.Color('green'),(health_bar_x, health_bar_y, self.health, 4))#GOOD HEALTH
+
+
+
+In CreepData.py add the following to the evolve method, directly underneath the "if self.paused: return" code:
+        # If the mouse button was pressed, check to see if any creeps were clicked on
+        if 1 in newbuttons:
+            for creep in self.creeps:
+                creep.mouse_click_event(mouse_position)
+
+
+Make the creeps explode and die when they get to 0 health
+----------------------
+Add the following to the top of the creeps.py file directly below "from vec2d import vec2d":
+from SimpleAnimation import SimpleAnimation
+
+In creep.py add the following code to the bottom of the __init__ method:
+        # When the creep runs out of health, this image is displayed
+        self.explosion_img = pygame.image.load(os.path.join("images","explosion1.png")).convert_alpha()
+        # To create an animated effect, we will rotate the image back and forth 90 degrees
+        self.explosion_images = [self.explosion_img, pygame.transform.rotate(self.explosion_img, 90)]
+
+Add the following method to the end of the creep.py file:
+    def _explode(self, surface):
+        """ Starts the explosion animation that ends the Creep's life.
+        """
+        self.state = Creep.EXPLODING
+        pos = ( self.pos.x - self.explosion_images[0].get_width() / 2,
+                self.pos.y - self.explosion_images[0].get_height() / 2)
+        self.explode_animation = SimpleAnimation(surface, pos, self.explosion_images, 100, 300)
+
+
+Add the following code to the end of the evolve method within the creep.py file. It should be indented to the same indentation level same as the first "if" condition within the evolve method:
+        elif self.state == Creep.EXPLODING:
+            if self.explode_animation.active:
+                self.explode_animation.update(time_passed)
+            else:
+                self.state = Creep.DEAD
+                self.kill()
+        elif self.state == Creep.DEAD:
+            pass
+
+In the draw method within the creep.py file, replace the code "if self.state == Creep.ALIVE" with:
+        if self.state == Creep.ALIVE and self.health == 0:
+            self._explode(surface)
+        elif self.state == Creep.ALIVE:
+
+Add the following to the end of the draw method within the creep.py file:
+        elif self.state == Creep.EXPLODING:
+            self.explode_animation.draw()
+        elif self.state == Creep.DEAD:
+            pass
+
+
+Draw a message box to display some text & keep track of how many creeps are still alive
+----------------------
+Add the following code to the __init__ method within the CreepData.py file, before "self.newGame()":
+        # define the size and location of the message board rectangle
+        self.MESSAGE_BOARD_RECT = pygame.Rect(
+                int(self.PLAYING_FIELD_RECT.topright[0])+9,
+                self.PLAYING_FIELD_RECT.y, 
+                (self.width*self.cell_size)-self.PLAYING_FIELD_RECT.topright[0]-14, 
+                100)
+
+Add the following method to the end of the CreepData.py file:
+    def draw_message_board(self, surface, box_rect, box_color, messages = []):
+        self.draw_bordered_box(surface, box_rect, box_color)
+        line_height = 0
+        for m in messages:
+            self.drawTextLeft(m, surface, box_rect.topleft[0]+2, box_rect.y+2+line_height, self.font_medium)
+            line_height += self.font_medium.get_height()+2
+
+Add the following code to the end of the draw method within the CreepData.py file:
+        # Draw the message board
+        number_of_creeps = len(self.creeps)
+        self.draw_message_board(surface, self.MESSAGE_BOARD_RECT, pygame.Color(50, 20, 0), ["Creep Count: "+str(number_of_creeps), " ", "You are awesome!"])
+
+
+Display a message when the game has been won
+-------------
+Add the following code to the evolve method within the CreepData.py file, above the "if 1 in newbuttons:" code:
+        # If all the creeps are dead, you won!
+        if len(self.creeps) == 0:
+            return
+
+Add the following code to the draw method within the CreepData.py file, above "for c in self.creeps:":
+        # Congratulate the player for winning the game
+        if len(self.creeps) == 0:
+            self.drawTextCenter("Congratulations!", surface, self.PLAYING_FIELD_RECT.center[0], self.PLAYING_FIELD_RECT.center[1]-(self.font_large.get_height()*2), self.font_large)
+            self.drawTextCenter("You have beaten the game!", surface, self.PLAYING_FIELD_RECT.center[0], self.PLAYING_FIELD_RECT.center[1]-(self.font_large.get_height()-5), self.font_large)
+            self.drawTextCenter("Press 'q' to Quit, or 'r' to Restart", surface, self.PLAYING_FIELD_RECT.center[0], self.PLAYING_FIELD_RECT.center[1]+15, self.font_medium)
+            return
+
+
+Add Background Music
+-----------------
+Add the following to the top of the CreepData.py file underneath "import pygame":
+import pygame.mixer
+
+Add the following code to the __init__ method within the CreepData.py file, before the self.newGame() line:
+        # Initialize the sound mixer and set it up to be ready to play the background music
+        pygame.mixer.pre_init(44100, -16, 2, 2048)
+        pygame.mixer.init()
+        self.game_music = "background.ogg"
+        pygame.mixer.music.load(os.path.join("sounds", self.game_music))
+
+Add the following line of code to the newGame method within the CreepData.py file:
+        pygame.mixer.music.play(-1) # play and loop the background music
+
+
+Add Sound Effects
+------------------
+Add the following code to the __init__ method within the creep.py file:
+        # Setup the sound effects
+        self.creep_hit_sound = pygame.mixer.Sound(os.path.join("sounds", "creep_hit.ogg"))
+        self.creep_explosion_sound = pygame.mixer.Sound(os.path.join("sounds", "creep_explode.ogg"))
+
+To make a sound when a creep is hit, add the following line of code to the mouse_click_event method within the creep.py file directly above "self._decrease_health(3)":
+            self.creep_hit_sound.play()
+
+To make a sound when a creep is killed, add the following line of code to the _explode method within the creep.py file directly below "self.state = Creep.EXPLODING":
+        self.creep_explosion_sound.play()
+
+
+Ideas for individual extra add-ons
+-------------
+* Change the number of creeps running around the playing field
+* Add your own images for the creeps
+* Change the background colors and the background tiles
+* Make the creeps bounce off of one another
+* Add a clock to see how quickly you can kill all the creeps
+* Make more creeps appear if you don't kill them all within a specific time limit
+* Keep track of the fastest times to beat the game
+* Add a countdown and see if you can kill the keeps before it reaches 0
+* Add a difficulty menu - more creeps, more speed, less time, etc.
+* Make the different creeps have different amounts of health
+* Add a "good" creep, and try to defend it from being hit by the "bad" creeps
+* Add additional sound affects to the game
+* Add additional levels to the game
+* Add additional animations within the game
