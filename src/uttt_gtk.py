@@ -63,9 +63,9 @@ class TTTGUI:
         self.login_box.pack_start(self.login_button,  True, True)
         self.login_box.show()
 
-        login_button_style = self.login_button_label.get_style().copy()
-        login_button_style.fg[gtk.STATE_NORMAL] = self.login_button_label.get_colormap().alloc(65535, 32767, 0)
-        self.login_button_label.set_style(login_button_style)
+        #login_button_style = self.login_button_label.get_style().copy()
+        #login_button_style.fg[gtk.STATE_NORMAL] = self.login_button_label.get_colormap().alloc(65535, 32767, 0)
+       # self.login_button_label.set_style(login_button_style)
         
         return
 
