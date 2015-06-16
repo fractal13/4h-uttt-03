@@ -12,8 +12,8 @@ class UTTTGame(PygameGame):
         self.send_queue = send_queue
         self.image = pygame.image.load("Space.jpg")
         self.player1 = pygame.image.load("alieng.png")
-        self.player2= pygame.image.load("alienp.png")
-        self.image1 =pygame.image.load("background.png")
+        self.player2 = pygame.image.load("alienp.png")
+        self.image1 = pygame.image.load("background2.png")
         return
    
     def handle_state(self):
