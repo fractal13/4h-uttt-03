@@ -13,6 +13,7 @@ class UTTTGame(PygameGame):
         self.image = pygame.image.load("Space.jpg")
         self.player1 = pygame.image.load("alieng.png")
         self.player2= pygame.image.load("alienp.png")
+        self.image1 =pygame.image.load("background.png")
         return
    
     def handle_state(self):
@@ -92,13 +93,14 @@ class UTTTGame(PygameGame):
 
         for board in range(9):
             if self.data.GetNextBoard() == board:
-                color = (0,255,0)
+                #color = (0,255,0)
                 x = (board % 3)*self.width/3
                 y = (board / 3)*self.height/3
                 w = self.width/3
                 h = self.height/3
                 rect= pygame.Rect(x,y,w,h)
-                pygame.draw.rect(surface,color,rect)
+                #pygame.draw.rect(surface,color,rect)
+                surface.blit(self.image1,(0,0))
         
         
         
