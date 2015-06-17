@@ -19,10 +19,10 @@ class UTTTGame(PygameGame):
 
 
 
-        #pygame.mixer.pre_init(44100, -16, 2, 2048)
-        #pygame.mixer.init()
-        #self.game_music = "background.ogg"
-        #pygame.mixer.music.load(os.path.join("sounds", self.game_music))
+        pygame.mixer.pre_init(44100, -16, 2, 2048)
+        pygame.mixer.init()
+        self.game_music = "starwars.mp3"
+        pygame.mixer.music.load(os.path.join("sounds", self.game_music))
         
         return
    
