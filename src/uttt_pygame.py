@@ -22,7 +22,7 @@ class UTTTGame(PygameGame):
         pygame.mixer.pre_init(44100, -16, 2, 2048)
         pygame.mixer.init()
         self.game_music = "starwars.mp3"
-        pygame.mixer.music.load(os.path.join("sounds", self.game_music))
+        pygame.mixer.music.load(self.game_music)
         
         return
    
@@ -103,7 +103,7 @@ class UTTTGame(PygameGame):
 
         for board in range(9):
             if self.data.GetNextBoard() == board:
-                color = (0,255,0)
+                color = (0,0,0)
                 x = (board % 3)*self.width/3
                 y = (board / 3)*self.height/3
                 w = self.width/3
@@ -112,7 +112,7 @@ class UTTTGame(PygameGame):
                 pygame.draw.rect(surface,color,rect)
                 #surface.blit(self.image1,(0,0))
 
-               
+        
         
         
         
@@ -142,7 +142,7 @@ class UTTTGame(PygameGame):
                     surface.blit(self.player1, (x-18, y-23))
                 elif marker == uttt_data.PLAYER_O:
                     #pygame.draw.circle(surface, (0,0,255), (x, y), 5)
-                    surface.blit(self.player2, (x-18, y-23
+                    surface.blit(self.player2, (x-18, y-23))
         return
 
 def drawTextLeft(self, surface, text, color, x, y, font):
