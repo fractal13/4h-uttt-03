@@ -142,7 +142,7 @@ class UTTTGame(PygameGame):
                     surface.blit(self.player1, (x-18, y-23))
                 elif marker == uttt_data.PLAYER_O:
                     #pygame.draw.circle(surface, (0,0,255), (x, y), 5)
-                    surface.blit(self.player2, (x-18, y-23))
+                    surface.blit(self.player2, (x-18, y-23
         return
 
 def drawTextLeft(self, surface, text, color, x, y, font):
