@@ -30,7 +30,7 @@ class TTTGUI:
         self.username_box.show()
 
         username_style = self.username_label.get_style().copy()
-        username_style.fg[gtk.STATE_NORMAL] = self.username_label.get_colormap().alloc(65535, 32767, 0)
+        username_style.fg[gtk.STATE_NORMAL] = self.username_label.get_colormap().alloc("#5202A3")
         self.username_label.set_style(username_style)
         
         # Password
@@ -47,7 +47,7 @@ class TTTGUI:
         self.password_box.show()
 
         password_style = self.password_label.get_style().copy()
-        password_style.fg[gtk.STATE_NORMAL] = self.password_label.get_colormap().alloc(65535, 32767, 0)
+        password_style.fg[gtk.STATE_NORMAL] = self.password_label.get_colormap().alloc("#5202A3")
         self.password_label.set_style(password_style)
         
         # Login Button
@@ -220,7 +220,7 @@ class TTTGUI:
         # Window
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.add(self.top_box)
-        self.window.set_default_size(400,300)
+        self.window.set_default_size(500,500)
         self.window.show()
         
         return
