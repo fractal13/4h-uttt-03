@@ -29,9 +29,9 @@ class TTTGUI:
         self.username_box.pack_start(self.username_view, True, True)
         self.username_box.show()
 
-        #username_style = self.username_label.get_style().copy()
-        #username_style.fg[gtk.STATE_NORMAL] = self.username_label.get_colormap().alloc(65535, 32767, 0)
-        #self.username_label.set_style(username_style)
+        username_style = self.username_label.get_style().copy()
+        username_style.fg[gtk.STATE_NORMAL] = self.username_label.get_colormap().alloc(65535, 32767, 0)
+        self.username_label.set_style(username_style)
         
         # Password
         self.password_label = gtk.Label("Password")
@@ -139,7 +139,7 @@ class TTTGUI:
     def build_wait_interface(self):
         
         # Message
-        self.wait_label = gtk.Label("Please Wait")
+        self.wait_label = gtk.Label("Oh Nosies! Nobody wants to play with you!")
         self.wait_label.show()
         
         # Wait Interface
@@ -152,11 +152,11 @@ class TTTGUI:
     def build_login_fail_interface(self):
         
         # Message
-        self.login_fail_label = gtk.Label("Login Failed")
+        self.login_fail_label = gtk.Label("FAIL. Do try not to mistype your name next time.")
         self.login_fail_label.show()
 
         # Acknowledge Button
-        self.login_fail_button = gtk.Button("OK")
+        self.login_fail_button = gtk.Button("OKAY?!")
         self.login_fail_button.show()
         
         # Login Fail Interface
@@ -170,7 +170,7 @@ class TTTGUI:
     def build_signup_fail_interface(self):
         
         # Message
-        self.signup_fail_label = gtk.Label("Sign Up Failed")
+        self.signup_fail_label = gtk.Label("Too bad so sad. Your pizza orfer did not go through. ")
         self.signup_fail_label.show()
 
         # Acknowledge Button

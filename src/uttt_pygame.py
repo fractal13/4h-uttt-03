@@ -14,12 +14,9 @@ class UTTTGame(PygameGame):
         self.image = pygame.image.load("Space.jpg")
         self.player1 = pygame.image.load("alieng.png")
         self.player2 = pygame.image.load("alienp.png")
-        self.image1 = pygame.image.load("background2.png")
+        self.image1 = pygame.image.load("blackhole2.png")
         self.font = pygame.font.SysFont("impact", 14)
 
-
-
-        
         pygame.mixer.init()
         self.game_music = pygame.mixer.music.load("starwars.mp3")
 
@@ -102,6 +99,7 @@ class UTTTGame(PygameGame):
         rect = pygame.Rect(0,0,self.width,self.height)
         surface.blit(self.image,(0,0))
 
+
         for board in range(9):
             if self.data.GetNextBoard() == board:
                 color = (0,0,0)
@@ -111,7 +109,28 @@ class UTTTGame(PygameGame):
                 h = self.height/3
                 rect= pygame.Rect(x,y,w,h)
                 pygame.draw.rect(surface,color,rect)
-                #surface.blit(self.image1,(0,0))
+    
+                if board == 0:
+                    surface.blit(self.image1,(0,0))
+                elif board == 1:
+                    surface.blit(self.image1,(200,0))
+                elif board == 2:
+                    surface.blit(self.image1,(400,0))
+                elif board == 3:
+                    surface.blit(self.image1,(0,200))
+                elif board == 4:
+                    surface.blit(self.image1,(200,200))
+                elif board == 5:
+                    surface.blit(self.image1,(400,200))
+                elif board == 6:
+                    surface.blit(self.image1,(0,400))
+                elif board == 7:
+                    surface.blit(self.image1,(200,400))
+                elif board == 8:
+                    surface.blit(self.image1,(400,400))
+                        
+                
+                    
 
         
         
@@ -157,8 +176,8 @@ def drawtext(self, drawTextLeft):
     self.drawTextLeft(surface, "Cthulhu", (0, 255, 0), 295, 45, self.font)
     self.drawTextLeft(surface, "Mau", (255, 0, 255), 300, 90, self.font)
     self.drawTextLeft(surface, "Marvin", (255, 0, 255), 300, 70, self.font)
-    
-    drawtext(self, drawTextLeft)
+    return
+
     
     
 
