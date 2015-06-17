@@ -19,10 +19,11 @@ class UTTTGame(PygameGame):
 
 
 
-        pygame.mixer.pre_init(44100, -16, 2, 2048)
+        
         pygame.mixer.init()
-        self.game_music = "starwars.mp3"
-        pygame.mixer.music.load(self.game_music)
+        self.game_music = pygame.mixer.music.load("starwars.mp3")
+
+        pygame.mixer.music.play(-1, 0.0)
         
         return
    
@@ -156,7 +157,9 @@ def drawtext(self, drawTextLeft):
     self.drawTextLeft(surface, "Cthulhu", (0, 255, 0), 295, 45, self.font)
     self.drawTextLeft(surface, "Mau", (255, 0, 255), 300, 90, self.font)
     self.drawTextLeft(surface, "Marvin", (255, 0, 255), 300, 70, self.font)
-    return
+    
+    drawtext(self, drawTextLeft)
+    
     
 
 def uttt_pygame_main(data, send_queue):
