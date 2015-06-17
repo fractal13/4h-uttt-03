@@ -99,6 +99,15 @@ class UTTTGame(PygameGame):
         rect = pygame.Rect(0,0,self.width,self.height)
         surface.blit(self.image,(0,0))
 
+        opponent = "You are playing: " + self.data.GetOpponentName()
+        self.drawTextLeft(surface, opponent, (255, 255, 255), 25, 35, self.font)
+
+        currentTurn = "It is " + self.data.GetNextPlayer() + "'s turn"
+        self.drawTextLeft(surface, currentTurn, (255, 255, 255), 25, 45, self.font)
+
+        you = "You are " + self.data.GetPlayer() + "s"
+        self.drawTextLeft(surface, you, (255, 255, 255), 25, 55, self.font)      
+
 
         for board in range(9):
             if self.data.GetNextBoard() == board:
@@ -129,7 +138,6 @@ class UTTTGame(PygameGame):
                 elif board == 8:
                     surface.blit(self.image1,(400,400))
                         
-                
                     
 
         
@@ -165,12 +173,12 @@ class UTTTGame(PygameGame):
                     surface.blit(self.player2, (x-18, y-23))
         return
 
-def drawTextLeft(self, surface, text, color, x, y, font):
-    textobj = font.render(text, False, color)
-    textrect = textobj.get_rect()
-    textrect.bottomleft = (x, y)
-    surface.blit(textobj, textrect)
-    return
+    def drawTextLeft(self, surface, text, color, x, y, font):
+        textobj = font.render(text, False, color)
+        textrect = textobj.get_rect()
+        textrect.bottomleft = (x, y)
+        surface.blit(textobj, textrect)
+        return
 
 def drawtext(self, drawTextLeft):
     self.drawTextLeft(surface, "Cthulhu", (0, 255, 0), 295, 45, self.font)
