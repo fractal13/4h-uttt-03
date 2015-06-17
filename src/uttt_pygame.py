@@ -8,12 +8,22 @@ class UTTTGame(PygameGame):
     def __init__(self, width_px, height_px, frames_per_second, data, send_queue):
         # PygameGame sets self.width and self.height        
         PygameGame.__init__(self, "Ultimate Tic Tac Toe", width_px, height_px, frames_per_second)
+        pygame.font.init()
         self.data = data
         self.send_queue = send_queue
         self.image = pygame.image.load("Space.jpg")
         self.player1 = pygame.image.load("alieng.png")
         self.player2 = pygame.image.load("alienp.png")
         self.image1 = pygame.image.load("background2.png")
+        self.font = pygame.font.SysFont("impact", 14)
+
+
+
+        #pygame.mixer.pre_init(44100, -16, 2, 2048)
+        #pygame.mixer.init()
+        #self.game_music = "background.ogg"
+        #pygame.mixer.music.load(os.path.join("sounds", self.game_music))
+        
         return
    
     def handle_state(self):
@@ -101,6 +111,9 @@ class UTTTGame(PygameGame):
                 rect= pygame.Rect(x,y,w,h)
                 pygame.draw.rect(surface,color,rect)
                 #surface.blit(self.image1,(0,0))
+
+               
+        
         
         
         
@@ -131,6 +144,20 @@ class UTTTGame(PygameGame):
                     #pygame.draw.circle(surface, (0,0,255), (x, y), 5)
                     surface.blit(self.player2, (x-18, y-23))
         return
+
+def drawTextLeft(self, surface, text, color, x, y, font):
+    textobj = font.render(text, False, color)
+    textrect = textobj.get_rect()
+    textrect.bottomleft = (x, y)
+    surface.blit(textobj, textrect)
+    return
+
+def drawtext(self, drawTextLeft):
+    self.drawTextLeft(surface, "Cthulhu", (0, 255, 0), 295, 45, self.font)
+    self.drawTextLeft(surface, "Mau", (255, 0, 255), 300, 90, self.font)
+    self.drawTextLeft(surface, "Marvin", (255, 0, 255), 300, 70, self.font)
+    return
+    
 
 def uttt_pygame_main(data, send_queue):
     game = UTTTGame(600, 600, 30, data, send_queue)
