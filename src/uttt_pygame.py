@@ -179,15 +179,7 @@ class UTTTGame(PygameGame):
         textrect.bottomleft = (x, y)
         surface.blit(textobj, textrect)
         return
-
-def drawtext(self, drawTextLeft):
-    self.drawTextLeft(surface, "Cthulhu", (0, 255, 0), 295, 45, self.font)
-    self.drawTextLeft(surface, "Mau", (255, 0, 255), 300, 90, self.font)
-    self.drawTextLeft(surface, "Marvin", (255, 0, 255), 300, 70, self.font)
-    return
-
-    
-    
+   
 
 def uttt_pygame_main(data, send_queue):
     game = UTTTGame(600, 600, 30, data, send_queue)
