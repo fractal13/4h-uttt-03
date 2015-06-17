@@ -139,7 +139,7 @@ class TTTGUI:
     def build_wait_interface(self):
         
         # Message
-        self.wait_label = gtk.Label("Oh Nosies! Nobody wants to play with you!")
+        self.wait_label = gtk.Label("Oh Nosies! Nobody wants to play with you yet!")
         self.wait_label.show()
         
         # Wait Interface
