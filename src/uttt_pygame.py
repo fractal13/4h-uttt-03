@@ -15,7 +15,7 @@ class UTTTGame(PygameGame):
         self.player1 = pygame.image.load("alieng.png")
         self.player2 = pygame.image.load("alienp.png")
         self.image1 = pygame.image.load("blackhole2.png")
-        self.font = pygame.font.SysFont("impact", 14)
+        self.font = pygame.font.Font("Starjedi.ttf", 14)
 
         pygame.mixer.init()
         self.game_music = pygame.mixer.music.load("starwars.mp3")
@@ -65,7 +65,7 @@ class UTTTGame(PygameGame):
                             uttt_data.STATE_ERROR ]:
                 # close
                 print "Socket closed, or other error, pygame will quit."
-                pygame.quit()
+                #pygame.quit()
             elif state in [ uttt_data.STATE_SOCKET_OPEN ]:
                 # what should I do?
                 pass
@@ -99,15 +99,15 @@ class UTTTGame(PygameGame):
         rect = pygame.Rect(0,0,self.width,self.height)
         surface.blit(self.image,(0,0))
 
-        opponent = "You are playing: " + self.data.GetOpponentName()
+        opponent = "you are playing: " + self.data.GetOpponentName()
         self.drawTextLeft(surface, opponent, (255, 255, 255), 25, 35, self.font)
 
-        currentTurn = "It is " + self.data.GetNextPlayer() + "'s turn"
-        self.drawTextLeft(surface, currentTurn, (255, 255, 255), 25, 45, self.font)
-
-        you = "You are " + self.data.GetPlayer() + "s"
-        self.drawTextLeft(surface, you, (255, 255, 255), 25, 55, self.font)      
-
+        currentTurn = "it  is  " + self.data.GetNextPlayer() + "' s  turn"
+        self.drawTextLeft(surface, currentTurn, (255, 255, 255), 25, 55, self.font)
+        print currentTurn
+        you = "you are " + self.data.GetPlayer() + "s"
+        self.drawTextLeft(surface, you, (255, 255, 255), 25, 75, self.font)      
+        print you
 
         for board in range(9):
             if self.data.GetNextBoard() == board:
@@ -171,6 +171,15 @@ class UTTTGame(PygameGame):
                 elif marker == uttt_data.PLAYER_O:
                     #pygame.draw.circle(surface, (0,0,255), (x, y), 5)
                     surface.blit(self.player2, (x-18, y-23))
+
+        opponent = "You are playing: " + self.data.GetOpponentName()
+        self.drawTextLeft(surface, opponent, (255, 255, 255), 25, 35, self.font)
+
+        currentTurn = "I t  is  " + self.data.GetNextPlayer() + "' s  turn"
+        self.drawTextLeft(surface, currentTurn, (255, 255, 255), 25, 55, self.font)
+
+        you = "You are " + self.data.GetPlayer() + "s"
+        self.drawTextLeft(surface, you, (255, 255, 255), 25, 75, self.font) 
         return
 
     def drawTextLeft(self, surface, text, color, x, y, font):

@@ -2,8 +2,8 @@ import uttt_messages
 import re
 
 PLAYER_N = "N"
-PLAYER_X = "X"
-PLAYER_O = "O"
+PLAYER_X = "x"
+PLAYER_O = "o"
 PLAYER_TIE = "TIE"
 LEGAL_BOARD_OWNERS = (PLAYER_X, PLAYER_O, PLAYER_TIE)
 LEGAL_MARKERS = (PLAYER_X, PLAYER_O)
